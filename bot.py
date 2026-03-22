@@ -1,4 +1,4 @@
-import os
+mport os
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
@@ -10,22 +10,15 @@ BOT_TOKEN = os.environ.get("BOT_TOKEN")
 CHANNEL_ID = os.environ.get("CHANNEL_ID")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "مرحبا!\n\nهذا بوت قناة VIP عقود الاوبشن\n\nللاشتراك، تواصل مع المشرف."
-    )
+    await update.message.reply_text("مرحبا! هذا بوت قناة VIP عقود الاوبشن. للاشتراك تواصل مع المشرف.")
 
 async def add_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id != update.effective_chat.id:
-        return
     if not context.args:
-        await update.message.reply_text("استخدم: /add @username")
+        await update.message.reply_text("استخدم: /add USER_ID")
         return
     try:
-        link = await context.bot.create_chat_invite_link(
-            chat_id=int(CHANNEL_ID),
-            member_limit=1
-        )
-        await update.message.reply_text("رابط الدخول:\n" + link.invite_link)
+        link = await context.bot.create_chat_invite_link(chat_id=int(CHANNEL_ID), member_limit=1)
+        await update.message.reply_text("رابط الدخول: " + link.invite_link)
     except Exception as e:
         await update.message.reply_text("خطا: " + str(e))
 
