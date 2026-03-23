@@ -96,8 +96,7 @@ async def status_cb(update, context):
     if rem > 0: await q.edit_message_text(f"Active!\nExpiry: {sub['expiry'][:10]}\nDays left: {rem}")
     else: await q.edit_message_text("Expired. Contact admin.")
 async def check_expired(context):
-    db = get_all()
-    for uid, info in list(db.items()):
+    for uid, info in list(get_all().items()):
         if datetime.now() > datetime.fromisoformat(info["expiry"]):
             try:
                 await context.bot.ban_chat_member(chat_id=CHANNEL_ID, user_id=int(uid))
